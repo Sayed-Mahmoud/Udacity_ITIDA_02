@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS public.Products;
+DROP TABLE IF EXISTS public.products;

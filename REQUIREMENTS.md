@@ -5,38 +5,61 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## API Endpoints
 #### Products
-- Index 
-- Show
-- Create [token required]
-- [OPTIONAL] Top 5 most popular products 
-- [OPTIONAL] Products by category (args: product category)
+- Index: 
+    index Method, URL: http://localhost:3000/products
+- Show: 
+    show Method, URL: http://localhost:3000/products/{:id}
+- Create: [token required]
+    create Method, URL: http://localhost:3000/products?name={}&price={}&category={}
+- [OPTIONAL] Top 5 most popular products: 
+    top5 Method, URL: http://localhost:3000/products/top5
+- [OPTIONAL] Products by category (args: product category):
+    prodByCats Method, URL: http://localhost:3000/products/cats/{:cat}
+- [OPTIONAL] update [token required]: 
+    update Method, URL: http://localhost:3000/products?id={}name={}&price={}&category={}
+- [OPTIONAL] delete [token required]: 
+    destroy Method, URL: http://localhost:3000/products?id={}
 
 #### Users
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+- Index [token required]: 
+    index Method, URL: http://localhost:3000/users
+- Show [token required]: 
+    show Method, URL: http://localhost:3000/users/{:id}
+- Create [token required]: 
+    create Method, URL: http://localhost:3000/users?firstname={}&lastname={}&password={}
+- [OPTIONAL] Authentication: 
+    authenticate Method, URL: http://localhost:3000/users/authenticate?firstname={}&lastname={}&password={}
 
 #### Orders
-- Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
+- Current Order by user (args: user id) [token required]: 
+    show Method, URL: http://localhost:3000/orders/{:userid}
+- [OPTIONAL] Completed Orders by user (args: user id) [token required]:
+    showCompleted Method, URL: http://localhost:3000/orders/completed/{:userid}
+- [OPTIONAL] Create [token required]: 
+    create Method, URL: http://localhost:3000/orders?user_id={}&product_id={}&quantity={}&status={}
+- [OPTIONAL] update [token required]: 
+    update Method, URL: http://localhost:3000/orders?id={}&status={}
+- [OPTIONAL] delete [token required]: 
+    destroy Method, URL: http://localhost:3000/orders?id={}
+
 
 ## Data Shapes
 #### Product
--  id
-- name
-- price
-- [OPTIONAL] category
+- id: Serial, PK
+- name: character(255)
+- price: numeric(18,2)
+- [OPTIONAL] category: character(50)
 
 #### User
-- id
-- firstName
-- lastName
-- password
+- id: Serial, PK
+- firstName: character(50)
+- lastName: character(50)
+- password: text
 
 #### Orders
-- id
-- id of each product in the order
-- quantity of each product in the order
-- user_id
-- status of order (active or complete)
+- id: Serial, PK
+- product_id: number, FK
+- quantity: number
+- user_id: number, FK
+- status (active or complete): character(8)
 

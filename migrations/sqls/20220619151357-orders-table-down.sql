@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS public.Orders;
+DROP TABLE IF EXISTS public.orders;

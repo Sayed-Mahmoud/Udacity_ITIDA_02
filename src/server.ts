@@ -13,9 +13,13 @@ app.use(bodyParser.json())
 app.use('/', [userRoutes, productRoutes, orderRoutes])
 
 app.get('/', function (req: Request, res: Response) {
-  res.send('Hello World!')
+    res.send('Hello World!')
 })
 
+// if (process.env.ENV !== 'test') {
 app.listen(port, function () {
-  console.log(`starting app on: ${port}`)
+    console.log(`starting app on: ${port}`)
 })
+// }
+
+export default app
