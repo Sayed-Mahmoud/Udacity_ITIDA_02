@@ -44,6 +44,8 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 
 ## Data Shapes
+**All tables in public schema.**
+
 #### Product
 - id: Serial, PK
 - name: character(255)
