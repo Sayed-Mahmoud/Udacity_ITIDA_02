@@ -1,7 +1,12 @@
 {
-    "spec_dir": "dist/src/models/tests",
-    "spec_files": ["**/*[sS]pec.js"],
-    "helpers": ["helpers/**/*.js"],
+    "spec_dir": "dist/src",
+    "spec_files": [
+        "**/*[sS]pec.js",
+        "**/*[hH]andler.js"
+    ],
+    "helpers": [
+        "helpers/**/*.js"
+    ],
     "stopSpecOnExpectationFailure": false,
     "random": false
 }

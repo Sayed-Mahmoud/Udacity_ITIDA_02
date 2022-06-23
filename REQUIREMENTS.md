@@ -58,8 +58,11 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 #### Orders
 - id: Serial, PK
-- product_id: number, FK
-- quantity: number
 - user_id: number, FK
 - status (active or complete): character(8)
+
+#### Order Products
+- id: Serial, PK
+- product_id: number, FK
+- quantity: number
 

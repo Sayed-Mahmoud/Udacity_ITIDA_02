@@ -1,10 +1,7 @@
 CREATE TABLE IF NOT EXISTS orders 
 (
-	id SERIAL Primary Key, 
-	product_id INT NOT NULL, 
+	"id" SERIAL Primary Key, 
 	user_id INT NOT NULL, 
-	quantity INT NOT NULL, 
-	status VARCHAR(8) NOT NULL DEFAULT('active'),
-	CONSTRAINT order_product_id FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	"status" VARCHAR(8) NOT NULL DEFAULT('active'),
 	CONSTRAINT order_user_id FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 );

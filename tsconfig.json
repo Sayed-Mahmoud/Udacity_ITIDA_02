@@ -18,7 +18,6 @@
   "exclude": [
     "node_modules",
     "dist",
-    "spec",
-    "src/handlers/__tests__"
+    "spec"
   ]
 }

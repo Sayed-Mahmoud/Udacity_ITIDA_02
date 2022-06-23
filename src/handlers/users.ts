@@ -6,124 +6,124 @@ const appUser = new ApplicationUsers()
 const userRoutes = express.Router()
 
 const index = async (req: Request, res: Response) => {
-    try {
-        const authorizationHeader = req.headers.authorization as string
-        const token = authorizationHeader.split(' ')[1]
-        jwt.verify(token, process.env.TOKEN_SECRET as string)
-    } catch (err) {
-        res.status(401)
-        res.json('Access denied, invalid token')
-        return
-    }
+  try {
+    const authorizationHeader = req.headers.authorization as string
+    const token = authorizationHeader.split(' ')[1]
+    jwt.verify(token, process.env.TOKEN_SECRET as string)
+  } catch (err) {
+    res.status(401)
+    res.json('Access denied, invalid token')
+    return
+  }
 
-    const users = await appUser.index()
-    res.json(users)
+  const users = await appUser.index()
+  res.json(users)
 }
 
 const show = async (req: Request, res: Response) => {
-    const userId: number = parseInt(req.params.id)
-    if (isNaN(userId)) {
-        res.send('Please provide a valid User id!') //, query: ${req.query.id}, body: ${req.body.id}, params: ${req.params.id} ${userId}
-        return
-    }
+  const userId: number = parseInt(req.params.id)
+  if (isNaN(userId)) {
+    res.send('Please provide a valid User id!') //, query: ${req.query.id}, body: ${req.body.id}, params: ${req.params.id} ${userId}
+    return
+  }
 
-    try {
-        const authorizationHeader = req.headers.authorization as string
-        const token = authorizationHeader.split(' ')[1]
-        jwt.verify(token, process.env.TOKEN_SECRET as string)
-    } catch (err) {
-        res.status(401)
-        res.json('Access denied, invalid token')
-        return
-    }
+  try {
+    const authorizationHeader = req.headers.authorization as string
+    const token = authorizationHeader.split(' ')[1]
+    jwt.verify(token, process.env.TOKEN_SECRET as string)
+  } catch (err) {
+    res.status(401)
+    res.json('Access denied, invalid token')
+    return
+  }
 
-    const user = await appUser.show(userId)
-    res.json(user)
+  const user = await appUser.show(userId)
+  res.json(user)
 }
 
 const create = async (req: Request, res: Response) => {
-    const fName = req.query.firstname as string
-    const lName = req.query.lastname as string
-    const pass = req.query.password as string
-    if (
-        fName === undefined ||
+  const fName = req.query.firstname as string
+  const lName = req.query.lastname as string
+  const pass = req.query.password as string
+  if (
+    fName === undefined ||
         fName.length < 2 ||
         lName === undefined ||
         lName.length < 2 ||
         pass === undefined ||
         pass.length < 6
-    ) {
-        res.send(
-            'Please provide a valid User details! The password length must be 6 or greater'
-        )
-        return
-    }
+  ) {
+    res.send(
+      'Please provide a valid User details! The password length must be 6 or greater'
+    )
+    return
+  }
 
-    try {
-        const authorizationHeader = req.headers.authorization as string
-        const token = authorizationHeader.split(' ')[1]
-        jwt.verify(token, process.env.TOKEN_SECRET as string)
-    } catch (err) {
-        res.status(401)
-        res.json('Access denied, invalid token')
-        return
-    }
+  try {
+    const authorizationHeader = req.headers.authorization as string
+    const token = authorizationHeader.split(' ')[1]
+    jwt.verify(token, process.env.TOKEN_SECRET as string)
+  } catch (err) {
+    res.status(401)
+    res.json('Access denied, invalid token')
+    return
+  }
 
-    const user: User = {
-        firstname: fName,
-        lastname: lName,
-        password: pass,
-    }
-    try {
-        const newUser = await appUser.create(user)
-        const token = jwt.sign(
-            { user: newUser },
+  const user: User = {
+    firstname: fName,
+    lastname: lName,
+    password: pass
+  }
+  try {
+    const newUser = await appUser.create(user)
+    const token = jwt.sign(
+      { user: newUser },
             process.env.TOKEN_SECRET as string
-        )
-        res.json(token)
-        // res.json(newUser)
-    } catch (err) {
-        res.status(400)
-        res.json(`Error user create: ${err}`)
-    }
+    )
+    res.json(token)
+    // res.json(newUser)
+  } catch (err) {
+    res.status(400)
+    res.json(`Error user create: ${err}`)
+  }
 }
 
 const authenticate = async (req: Request, res: Response) => {
-    const fName = req.query.firstname as string
-    const lName = req.query.lastname as string
-    const pass = req.query.password as string
-    if (
-        fName === undefined ||
+  const fName = req.query.firstname as string
+  const lName = req.query.lastname as string
+  const pass = req.query.password as string
+  if (
+    fName === undefined ||
         fName.length < 2 ||
         lName === undefined ||
         lName.length < 2 ||
         pass === undefined ||
         pass.length < 6
-    ) {
-        res.send(
-            'Please provide a valid User details! The password length must be 6 or greater'
-        )
-        return
-    }
+  ) {
+    res.send(
+      'Please provide a valid User details! The password length must be 6 or greater'
+    )
+    return
+  }
 
-    const user: User = {
-        firstname: fName,
-        lastname: lName,
-        password: pass,
-    }
-    try {
-        const u = await appUser.authenticate(
-            user.firstname,
-            user.lastname,
-            user.password
-        )
-        const token = jwt.sign({ user: u }, process.env.TOKEN_SECRET as string)
-        res.json(token)
-    } catch (error) {
-        res.status(401)
-        res.json({ error })
-        console.log(`user authenticate error: ${error}`)
-    }
+  const user: User = {
+    firstname: fName,
+    lastname: lName,
+    password: pass
+  }
+  try {
+    const u = await appUser.authenticate(
+      user.firstname,
+      user.lastname,
+      user.password
+    )
+    const token = jwt.sign({ user: u }, process.env.TOKEN_SECRET as string)
+    res.json(token)
+  } catch (error) {
+    res.status(401)
+    res.json({ error })
+    console.log(`user authenticate error: ${error}`)
+  }
 }
 
 /*
