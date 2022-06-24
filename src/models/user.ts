@@ -5,16 +5,16 @@ const saltRounds = process.env.SALT_ROUNDS
 const pepper = process.env.BCRYPT_PASSWORD
 
 export type User = {
-    id?: number
-    firstname: string
-    lastname: string
-    password: string
+  id?: number
+  firstname: string
+  lastname: string
+  password: string
 }
 
 export type UserDetail = {
-    id?: number
-    firstname: string
-    lastname: string
+  id?: number
+  firstname: string
+  lastname: string
 }
 
 export class ApplicationUsers {
@@ -33,7 +33,7 @@ export class ApplicationUsers {
   async show (id: number): Promise<UserDetail> {
     try {
       const sql =
-                'SELECT id, firstname, lastname FROM users WHERE id=($1)'
+        'SELECT id, firstname, lastname FROM users WHERE id=($1)'
       const conn = await client.connect()
 
       const result = await conn.query(sql, [id])
@@ -49,7 +49,7 @@ export class ApplicationUsers {
   async create (user: User): Promise<User> {
     try {
       const sql =
-                'INSERT INTO users (firstname, lastname, password) VALUES($1, $2, $3) RETURNING *'
+        'INSERT INTO users (firstname, lastname, password) VALUES($1, $2, $3) RETURNING *'
       const conn = await client.connect()
 
       const hash = bcrypt.hashSync(
@@ -70,10 +70,10 @@ export class ApplicationUsers {
       return CreatedUser
     } catch (err) {
       console.log(
-                `creating user error: ${err}, firstName: ${user.firstname}, lastName: ${user.lastname}, password: ${user.password}`
+        `creating user error: ${err}, firstName: ${user.firstname}, lastName: ${user.lastname}, password: ${user.password}`
       )
       throw new Error(
-                `Could not add new User ${user}. Error: ${err}, firstName: ${user.firstname}, lastName: ${user.lastname}, password: ${user.password}`
+        `Could not add new User ${user}. Error: ${err}, firstName: ${user.firstname}, lastName: ${user.lastname}, password: ${user.password}`
       )
     }
   }
@@ -85,18 +85,18 @@ export class ApplicationUsers {
   ): Promise<User | null> {
     const conn = await client.connect()
     const sql =
-            'SELECT Password FROM users WHERE firstname=($1) AND lastname=($2)'
+      'SELECT Password FROM users WHERE firstname=($1) AND lastname=($2)'
 
     const result = await conn.query(sql, [firstName, lastName])
 
     // console.log('password: ' + password + ', pepper' + pepper)
 
     if (result.rows.length) {
-      const userPass = result.rows[0]
+      const hashedPass = result.rows[0]
 
-      if (bcrypt.compareSync(password + pepper, userPass.password)) {
+      if (bcrypt.compareSync(password + pepper, hashedPass.password)) {
         // console.log(`password compared, password: ${password}, pepper: ${pepper}, userPass: ${userPass.password}`)
-        return userPass
+        return hashedPass
       }
     }
 

@@ -117,6 +117,7 @@ const authenticate = async (req: Request, res: Response) => {
       user.lastname,
       user.password
     )
+
     const token = jwt.sign({ user: u }, process.env.TOKEN_SECRET as string)
     res.json(token)
   } catch (error) {
